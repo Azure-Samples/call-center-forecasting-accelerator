@@ -1,4 +1,17 @@
-# <img src="./utils/media/ai-foundry.jpg" alt="Azure Foundry" style="width:60px;height:60px"/> 📞 Advanced Machine Learning Forecasting for Call Center Operations
+# <img src="./utils/media/ai-foundry.jpg" alt="Azure Foundry" style="width:60px;height:60px"/>  Advanced Machine Learning Forecasting for Call Center Operations 📞
+
+## 🚀 3. Context 
+
+This section establishes the context for the forecasting solution, outlining the background, objectives, and operational strategy behind the call center forecasting initiative. Here, we focus on aligning the data pipeline, feature engineering, and model deployment to predict future call volumes accurately.
+
+Key Points:
+- Business Objective: Enhance call volume predictions for better workforce management.
+- Technical Strategy: Use automated data preprocessing and advanced machine learning techniques.
+- Operational Impact: Streamline forecasting processes to improve staffing decisions and customer satisfaction.
+
+In today’s fast-paced service environment, forecasting for call centers is crucial. Leveraging a machine learning model allows the application to predict call volumes months in advance. This capability supports better workforce planning by informing decisions on timely hiring and staff reallocation, ensuring that enough personnel are available during peak periods. Moreover, early predictions enable the organization to optimize resources, prepare targeted training sessions, and implement proactive strategies, ultimately enhancing customer satisfaction and operational efficiency.
+
+
 ## 🔧 1. Prerequisites
 
 + [azd](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd), used to deploy all Azure resources and assets used in this sample.
@@ -72,50 +85,39 @@ storage_account_name =
 
 Make sure to define these variables in your local environment or include them in your configuration settings before running the application.
 
-## 🔧 3. Context
 
-In today’s fast-paced service environment, forecasting for call centers is crucial. Leveraging a machine learning model allows the application to predict call volumes months in advance. This capability supports better workforce planning by informing decisions on timely hiring and staff reallocation, ensuring that enough personnel are available during peak periods. Moreover, early predictions enable the organization to optimize resources, prepare targeted training sessions, and implement proactive strategies, ultimately enhancing customer satisfaction and operational efficiency.
+## Use of the Notebooks 🚀
+
+This section guides you through the interactive notebooks provided in this project. These notebooks are designed to help you prepare your data, analyze trends, and deploy your forecasting model with ease.
+
+1. **Data Preparation & Analysis (01-data-prep-analysis-detailed.ipynb)**
+   - Load and clean your raw call center data.
+   - Aggregate daily features and compute the target variable.
+   - Visualize trends, seasonality, and data distributions.
+
+2. **Model Deployment & Evaluation (03-deploy-automl-forecasting-call-center-mlflow.ipynb)**
+   - Deploy the best performing machine learning model.
+   - Retrieve and evaluate forecasted call volumes.
+   - Compare predictions with historical data for insightful analysis.
+
+Enjoy the process and happy forecasting! 😊
+
+Two notebooks streamline your forecasting workflow:
+
+### Data Preparation & Analysis (01-data-prep-analysis-detailed.ipynb)
+- Load raw CSV data via MLTable for tracking and versioning.
+- Clean data: convert types, remove duplicates, and drop unnecessary columns.
+- Feature engineer: compute time_to_resolve, daily call counts, holiday flags, and a 30-day rolling target.
+- Explore: visualize trends, seasonality, and distributions.
+- Save processed data as MLTable assets ("silver" layer) for later use.
+
+### Model Deployment & Evaluation (03-deploy-automl-forecasting-call-center-mlflow.ipynb)
+- Connect to your Azure ML Workspace and MLFlow.
+- Retrieve the best AutoML run and its metrics.
+- Download, register, and deploy the model using a batch endpoint.
+- Forecast: compare predictions with historical data through visual analysis.
 
 
-
-## Use of the notebooks
-
-These two notebooks are designed to work together as parts of your overall forecasting solution. Here’s how you can use them in your workflow:
-
-Data Preparation & Analysis Notebook (01-data-prep-analysis-detailed.ipynb):
-• Data Ingestion:
-  – Load your raw CSV using MLTable so that you can track, version, and share your data asset.
-  – Convert column types manually if needed (e.g. converting date columns to datetime).
-• Data Cleaning:
-  – Remove unneeded identifiers, duplicate rows, and unnecessary columns.
-  – Normalize categorical data (for example, grouping and encoding closure reasons).
-• Feature Engineering:
-  – Create new features like time_to_resolve, holiday flags, and aggregated daily call counts.
-  – Adjust the target variable by aggregating call counts over a future 30-day window using rolling windows.
-• Exploratory Analysis:
-  – Visualize trends such as daily and monthly call counts.
-  – Check for seasonality and data distribution.
-• Saving Data Assets:
-  – Save your processed data as MLTable assets (the “silver” layer) to be used downstream.
-
-Model Deployment & Evaluation Notebook (03-deploy-automl-forecasting-call-center-mlflow.ipynb):
-• Connect to Azure ML Workspace & MLFlow:
-  – Set up your Azure ML workspace and establish a connection using the default Azure credentials.
-  – Retrieve the AutoML trial’s best run and its metrics via MLFlow.
-• Model Preparation:
-  – Download the best model along with its environment and related artifacts. • Endpoint Creation & Deployment:
-  – Register the model and environment.
-  – Create a batch endpoint and deploy the model so that it can be used for batch inferencing.
-• Forecast vs. Actuals Analysis:
-  – Invoke the deployed model endpoint on test data.
-  – Download the forecast results and join them with historical data.
-  – Visualize the predictions against the actual values, including plotting prediction intervals.
-
-Workflow Summary:
-– First, run the data preparation notebook to understand and prepare your dataset, create consistent MLTable assets, and perform feature engineering.
-– Then, use the deployment notebook to retrieve the best model from an AutoML run, deploy it using Azure ML batch endpoints, run inferencing on test data, and analyze the forecasts.
-
-By separating these concerns, you ensure both a robust data pipeline and a smooth model deployment process, which together support efficient forecasting and analysis.
 
 ## Data 
 
@@ -123,25 +125,32 @@ By separating these concerns, you ensure both a robust data pipeline and a smoot
 
 Below is an overview of the call center data, illustrating the raw data input and its transformation via the pipeline:
 
-![Data Pipeline Overview](./media/utils/data.png "Overview of the Call Center Data Pipeline")
+![Data Pipeline Overview](./utils/media/data.png "Overview of the Call Center Data Pipeline")
 i have a dataframe which contains data from a call center. Each row represents the opening call opened by a customer, i want to predict the volume of calls next month, how can i adjust this data to be able to do this
 
 ⚠️ Attention: In data_call_center.csv, the "raw" data is a MOCK dataset provided solely for demonstration purposes and to run our presented pipelines. Please adjust your data pipeline accordingly before applying it to real call center data.
 
 ### Use the data pipeline
 
+The idea behind this pipeline is to automate all the data preparation steps required for your forecasting model. Instead of cleaning, aggregating, and feature-engineering your raw call center data manually every time, you define the transformations once and execute them with a scikit-learn pipeline.
 
-The idea behind this pipeline (core->data_preparation->pipeline) is to automatically perform all the data preparation steps you need for your forecasting model. Instead of manually cleaning, aggregating, and feature‐engineering your raw data every time, you define the transformations once and then apply them via a scikit‑learn pipeline.
+1. Configure the Pipeline:  
+   Create a configuration instance (FeatureEngineeringConfig) that specifies which data-preparation steps should run. These can include:
+   - Dropping unnecessary columns.
+   - Processing closure reasons by grouping similar entries.
+   - Aggregating features on a daily basis.
+   - Computing the target variable ("target_next_30days") by summing call counts over the next 30 days.
+   - Adding additional features like holiday flags.  
+   
+   The DataPrepPipelineBuilder uses this configuration to construct a scikit-learn Pipeline populated with all the specified transformation steps.
 
-Configure the Pipeline:
-First, you provide a configuration (an instance of FeatureEngineeringConfig) that outlines which data‐preparation steps (e.g. dropping columns, closure reason processing, aggregating daily features, computing the next 30 days target, and adding a holiday flag) should run. The DataPrepPipelineBuilder reads this configuration and builds a scikit‑learn Pipeline containing your transformation steps.
+2. Use the Pipeline:  
+   Once built, you can apply the pipeline to your dataset by calling its fit and transform methods. For example, if your raw data is stored in a CSV file, you might instantiate a DataVolumePreparation transformer with the CSV path. This transformer will:
+   - Load and clean the raw data (e.g., converting dates, filling missing values, calculating time-to-resolve).
+   - Process and standardize closure reasons.
+   - Aggregate the data by day and compute daily call counts.
+   - Generate the target variable needed for forecasting.
+   - Incorporate additional features such as holiday indicators.
+   
+   As a result, every time you run this pipeline, you receive a preprocessed DataFrame that is consistently formatted and ready for training your forecasting model. This approach streamlines repetitive tasks and reduces the potential for manual errors, especially when dealing with large or complex datasets.
 
-Using the Pipeline:
-Once the pipeline is built, you call its fit and transform methods. For example, if your raw call center data is in a CSV file, you can instantiate the DataVolumePreparation transformer with the CSV path. That transformer will then:
-
-Load and clean the raw data (convert dates, fill missing values, compute time-to-resolve, etc.).
-Process the closure reasons (grouping similar closures into common categories).
-Aggregate the data by day, compute daily call counts, and create a target variable ("target_next_30days") that sums the call counts over the next 30 days.
-Add additional features like the Brazilian holiday flag.
-Automatic Data Operations:
-With these steps automated in the pipeline, every time you run your pipeline you get a preprocessed DataFrame that is ready to be used for training your forecasting model. The advantage is consistency and reduced manual effort, especially when dealing with large datasets and complex transformations
