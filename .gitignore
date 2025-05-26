@@ -412,4 +412,5 @@ ENV/
 
 .azure/
 data/
-notebookes/result_invoke/
+notebooks/results_invoke/
+notebooks/artifact_downloads/

@@ -134,7 +134,7 @@ I have a DataFrame where each row represents a customer’s call opening. To pre
 
 ⚠️ Note: In data_call_center.csv, the “raw” data is a MOCK dataset provided solely for demonstration. Adjust your data pipeline appropriately before applying it to real call center data.
 
-![Data assets](./utils/media/terminal-azure.png "Select your Azure environment")
+![Data assets](./utils/media/data.png "Select your Azure environment")
 
 
 ### Use the data pipeline
