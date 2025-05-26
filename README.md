@@ -123,12 +123,19 @@ Two notebooks streamline your forecasting workflow:
 
 ## Data Visualization
 
-Below is an overview of the call center data, illustrating the raw data input and its transformation via the pipeline:
+Below is an overview of the data pipeline that transforms raw call center data into a structured format ideal for forecasting. Please note that the image reference is currently not working. Replace it with a valid image path or remove it if unnecessary.
 
-![Data Pipeline Overview](./utils/media/data.png "Overview of the Call Center Data Pipeline")
-i have a dataframe which contains data from a call center. Each row represents the opening call opened by a customer, i want to predict the volume of calls next month, how can i adjust this data to be able to do this
+I have a DataFrame where each row represents a customer’s call opening. To predict next month’s call volume, consider these adjustments:
 
-⚠️ Attention: In data_call_center.csv, the "raw" data is a MOCK dataset provided solely for demonstration purposes and to run our presented pipelines. Please adjust your data pipeline accordingly before applying it to real call center data.
+1. Convert the call opening time into a datetime format and extract the needed date components.
+2. Aggregate the data on a daily basis to count the number of calls.
+3. Further aggregate to a monthly level or use rolling windows to compute trends and seasonality.
+4. Feed the aggregated data into your forecasting model.
+
+⚠️ Note: In data_call_center.csv, the “raw” data is a MOCK dataset provided solely for demonstration. Adjust your data pipeline appropriately before applying it to real call center data.
+
+![Data assets](./utils/media/terminal-azure.png "Select your Azure environment")
+
 
 ### Use the data pipeline
 
