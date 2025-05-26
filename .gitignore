@@ -411,3 +411,5 @@ ENV/
 .env
 
 .azure/
+data/
+notebookes/result_invoke/
