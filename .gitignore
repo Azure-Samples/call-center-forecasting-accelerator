@@ -399,3 +399,18 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Python virtual environment directories
+env/
+venv/
+ENV/
+.venv/
+.env
+
+# Environment variable files
+.env
+
+.azure/
+data/
+notebooks/results_invoke/
+notebooks/artifact_downloads/
