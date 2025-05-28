@@ -161,3 +161,22 @@ The idea behind this pipeline is to automate all the data preparation steps requ
    
    As a result, every time you run this pipeline, you receive a preprocessed DataFrame that is consistently formatted and ready for training your forecasting model. This approach streamlines repetitive tasks and reduces the potential for manual errors, especially when dealing with large or complex datasets.
 
+
+
+### Results
+
+**Model Summary**  
+- **Algorithm:** VotingEnsemble  
+- **Ensemble Information:** Click to view ensemble details  
+- **Error Metric:** Normalized Root Mean Squared Error of 0.03984  
+- **Sampling Rate:** 100.00%
+
+**Model Registration**  
+- Registered Model: call-center-non-mlflow-0527:1
+
+**Deployment Status**  
+- Not deployed yet
+
+For more metrics and detailed insights, refer to the ensemble details link.
+
+![Training Overview](./utils/media/training.png)
